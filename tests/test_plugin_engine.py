@@ -2,6 +2,8 @@ from support import PluginTestCase
 from rpg import plugin_engine as engine
 from tests.project.py.plugin0 import TestPlugin
 from unittest import mock
+from rpg.plugins.lang.c import CPlugin
+from rpg.spec import Spec
 
 
 class PluginEngineTest(PluginTestCase):
@@ -25,6 +27,16 @@ class PluginEngineTest(PluginTestCase):
         self.plugin_dir = self.test_project_dir / "py"
         self.plugin_engine.load_plugins(self.plugin_dir, ["NotAPlugin"])
         self.assertEqual(len(self.plugin_engine.plugins), 1)
+
+    def test_c(self):
+        self.plugin_dir = self.test_project_dir
+        self.sack = mock.MagicMock()
+        self.spec = Spec()
+        self.c_plug = CPlugin()
+        self.c_plug.patched(self.test_project_dir, self.spec, self.sack)
+        self.assertEqual(self.spec.tags["Requires"],
+                         ['/usr/include/bits', '/usr/include',
+                          '/usr/include/sys', '/usr/include/gnu'])
 
     def test_execute_phase(self):
         self.plugin_engine.plugins = [mock.MagicMock()]
