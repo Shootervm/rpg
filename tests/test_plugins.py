@@ -5,9 +5,15 @@ from rpg.plugins.misc.find_patch import FindPatchPlugin, _is_patch
 from rpg.plugins.misc.find_file import FindFilePlugin
 from rpg.plugins.misc.find_translation import FindTranslationPlugin
 from rpg.plugins.misc.find_library import FindLibraryPlugin
+<<<<<<< HEAD
 from rpg.plugins.project_builder.make import MakePlugin
 from rpg.utils import get_architecture
 import sys
+=======
+from unittest import mock
+from rpg.plugins.lang.c import CPlugin
+from rpg.spec import Spec
+>>>>>>> [Fixed #73] Issues #16 and #72
 
 
 class FindPatchPluginTest(PluginTestCase):
@@ -79,3 +85,11 @@ class FindPatchPluginTest(PluginTestCase):
         self.spec.Requires.sort()
         imports.sort()
         self.assertEqual(self.spec.Requires, imports)
+
+    def test_c(self):
+        self.spec = Spec()
+        self.c_plug = CPlugin()
+        self.c_plug.patched(self.test_project_dir, self.spec, self.sack)
+        self.assertEqual(self.spec.tags["Requires"],
+                         ['/usr/include/bits', '/usr/include',
+                          '/usr/include/sys', '/usr/include/gnu'])
