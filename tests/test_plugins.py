@@ -90,6 +90,6 @@ class FindPatchPluginTest(PluginTestCase):
         self.spec = Spec()
         self.c_plug = CPlugin()
         self.c_plug.patched(self.test_project_dir, self.spec, self.sack)
-        self.assertEqual(self.spec.tags["Requires"],
-                         ['/usr/include/bits', '/usr/include',
-                          '/usr/include/sys', '/usr/include/gnu'])
+        self.assertEqual(self.spec.Requires.sort(),
+                         ['/usr/include/gnu', '/usr/include/sys',
+                          '/usr/include', '/usr/include/bits'].sort())

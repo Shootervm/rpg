@@ -18,7 +18,6 @@ class CPlugin(Plugin):
         files_list = \
             [str(s).replace('\n', '').replace('\\n', '').replace('b\'', '\'')
              for s in out.stdout.readlines()]
-        print(files_list)
         makedepend = "makedepend -w10000 -f" + fname + " -I" \
                      + str(project_dir) + " " + ' '.join(files_list)
         Command(makedepend).execute()
@@ -30,4 +29,5 @@ class CPlugin(Plugin):
                           if (regex.match(s) and not regex2.match(s))]))
         foo.close()
         unlink(fname)
-        spec.tags["Requires"].append(_ret_paths)
+        spec.Requires += _ret_paths
+        print(spec.Requires)
